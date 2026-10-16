@@ -265,6 +265,7 @@ display: block;
 
 #previewAyatTambahan {
     font-size: 24px;
+    white-space: pre-line;
 }
 
 #previewIC {
@@ -306,10 +307,6 @@ white-space: pre-line;
 
 #bahagianTandatangan {
     transform: translateY(-20px);
-}
-
-	body.print-portrait #bahagianTandatangan {
-    transform: translateY(-55px);
 }
 
     button {
@@ -1040,8 +1037,11 @@ body.cetak-batch #batchSijil {
 <div id="bahagianAyatTambahan">
 
     <label>Ayat Selepas Nama Program</label><br>
-    <input type="text" id="ayatTambahan"
-           placeholder="Contoh: bagi sesi 2026/2027">
+
+<textarea id="ayatTambahan"
+          rows="2"
+          placeholder="Contoh:
+bagi sesi 2026/2027"></textarea>
 
     <br><br>
 
@@ -1416,8 +1416,8 @@ if (orientasi.value === "Portrait") {
     sijil.style.maxWidth = "700px";
     sijil.style.aspectRatio = "210 / 297";
 
-    sijil.style.justifyContent = "flex-start";
-sijil.style.paddingTop = "20px";
+        sijil.style.justifyContent = "center";
+    sijil.style.paddingTop = "50px";
 
 } else {
     sijil.style.maxWidth = "1000px";
