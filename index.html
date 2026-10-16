@@ -164,8 +164,8 @@ input[type="file"]::file-selector-button:hover {
 #sijilPreview::after {
     content: "";
     position: absolute;
-    width: 380px;
-    height: 380px;
+    width: var(--watermark-size, 380px);
+height: var(--watermark-size, 380px);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -879,6 +879,25 @@ body.cetak-batch #batchSijil {
 
 <br><br>
 
+<label>Saiz Logo Watermark</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizWatermark"
+           min="100"
+           max="700"
+           value="380"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizWatermark">380 px</span>
+</div>
+
+<br><br>
+
     <label>Nama Sekolah / Kelab</label><br>
     <input type="text" id="namaSekolah"
            placeholder="Contoh: SMK Seri Maju">
@@ -1281,6 +1300,12 @@ const bahagianWarnaPelantikan =
     const fontIsi = document.getElementById("fontIsi");
 
     const namaSekolah = document.getElementById("namaSekolah");
+
+const saizWatermark =
+    document.getElementById("saizWatermark");
+
+const nilaiSaizWatermark =
+    document.getElementById("nilaiSaizWatermark");
     const ayatPengenalan = document.getElementById("ayatPengenalan");
 
 const saizAyatPengenalan =
@@ -1725,6 +1750,16 @@ panduanNamaProgram.textContent =
 
     }
 }
+
+saizWatermark.addEventListener("input", function () {
+    document.getElementById("sijilPreview").style.setProperty(
+        "--watermark-size",
+        saizWatermark.value + "px"
+    );
+
+    nilaiSaizWatermark.textContent =
+        saizWatermark.value + " px";
+});
 
 modSijil.addEventListener("change", updateModSijil);
 
