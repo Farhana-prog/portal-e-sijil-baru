@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal e-Sijil</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+    margin: 0;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #f5f3ff 100%);
+    color: #1f2937;
+    min-height: 100vh;
+}
+
+    body > h1 {
+    text-align: center;
+    margin: 10px auto 8px;
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #1e3a8a;
+}
+
+    body > p:first-of-type {
+    text-align: center;
+    color: #64748b;
+    font-size: 16px;
+    margin-bottom: 45px;
+}
+
+    body > h2 {
+    max-width: 900px;
+    margin: 45px auto 25px;
+    padding: 18px 22px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-left: 5px solid #1e3a8a;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    font-size: 20px;
+    color: #1e3a8a;
+}
+
+.bahagianBorang {
+    max-width: 900px;
+    margin: 0 auto 30px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+.bahagianBorang label {
+    display: inline-block;
+    margin-top: 5px;
+    color: #334155;
+    font-size: 14px;
+}
+
+.bahagianBorang p {
+    color: #64748b;
+    font-size: 13px;
+}
+
+    body > label,
+    body > input,
+    body > select,
+    body > textarea,
+    body > p {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+   input[type="text"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    max-width: 900px;
+    padding: 14px 16px;
+    margin-top: 8px;
+    border: 1px solid #dbe2ea;
+    border-radius: 10px;
+    background: #ffffff;
+    font-size: 15px;
+    color: #1f2937;
+    outline: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+   input[type="file"] {
+    margin-top: 8px;
+    width: 100%;
+    max-width: 900px;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px dashed #94a3b8;
+    border-radius: 10px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    padding: 10px 16px;
+    margin-right: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #1e3a8a;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: #1d4ed8;
+}
+
+    textarea {
+        resize: vertical;
+    }
+
+    #sijilPreview {
+        position: relative;
+	width: 100%;
+        max-width: 1000px;
+        aspect-ratio: 297 / 210;
+        margin: 25px auto;
+        background: white;
+        border: 12px double #333;
+        padding: 50px;
+        text-align: center;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+#sijilPreview::after {
+    content: "";
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: var(--watermark-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 1;
+}
+.design-klasik::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+left: -40px;
+right: -40px;
+bottom: -40px;
+
+    background-image: url("border-klasik.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    pointer-events: none;
+    z-index: 1;
+}
+
+.design-moden::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    right: -40px;
+    bottom: -40px;
+
+    background-image: url("./border-moden-landscape.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    pointer-events: none;
+    z-index: 1;
+}
+
+.print-portrait .design-moden::before {
+    background-image: url("./border-moden-portrait.png") !important;
+}
+
+.design-moden > * {
+    position: relative;
+    z-index: 2;
+}
+
+#sijilPreview > * {
+    position: relative;
+    z-index: 2;
+}
+
+#previewLogo img {
+    width: 120px;
+    height: 120px;
+    max-width: 350px;
+    max-height: 350px;
+    object-fit: contain;
+    margin-bottom: 0px;
+display: block;
+}
+
+#previewTandatangan img {
+    width: 130px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+    #previewSekolah {
+        font-size: 22px;
+        margin: 10px;
+    }
+
+    #previewJenis {
+        font-family: Georgia, serif;
+        font-size: 42px;
+        margin: 5px 0 20px;
+        letter-spacing: 2px;
+    }
+
+    #previewNama {
+        font-family: Georgia, serif;
+        font-size: 36px;
+	font-weight: bold;
+        margin: 15px 0;
+        border-bottom: 1px solid #555;
+        padding: 0 30px 8px;
+    }
+
+#previewAyatTambahan {
+    font-size: 24px;
+}
+
+#previewIC {
+    margin-top: -8px;
+    margin-bottom: 15px;
+}
+
+    #previewProgram {
+    	font-weight: bold;
+        font-size: 36px;
+        margin: 10px;
+    }
+
+    #previewPengenalan,
+    #previewAyatProgram,
+    #previewMaklumat,
+    #previewPenganjur {
+        margin: 7px;
+    }
+
+    #previewPenandatangan {
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+    #previewJawatan {
+white-space: pre-line;
+    margin-top: 2px;
+    margin-bottom: 0;
+    font-size: 16px;
+}
+
+#garisanTandatangan {
+    width: 220px;
+    border-top: 1.5px solid #000;
+    margin: 15px auto 5px auto;
+}
+
+#bahagianTandatangan {
+    transform: translateY(-20px);
+}
+
+    button {
+    padding: 16px 32px;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 5px;
+    transition: all 0.2s ease;
+}
+
+    #btnCetak {
+    background: #1e3a8a;
+    color: white;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.20);
+}
+
+#btnCetak:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+#btnPDF {
+    background: #ffffff;
+    color: #1e3a8a;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+}
+
+#btnPDF:hover {
+    background: #f8fafc;
+    transform: translateY(-2px);
+}
+
+#butangTindakan {
+    text-align: center;
+    margin: 30px auto;
+}
+
+#sijilPreview {
+    border-radius: 8px;
+}
+
+#batchSijil {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+#navigasiPenerima {
+    max-width: 1000px;
+    margin: 20px auto !important;
+    padding: 14px 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+#btnSebelumnya,
+#btnSeterusnya {
+    padding: 10px 18px;
+    background: #f8fafc;
+    color: #1e3a8a;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+#btnSebelumnya:hover,
+#btnSeterusnya:hover {
+    background: #eef2ff;
+    border-color: #93c5fd;
+    transform: translateY(-1px);
+}
+
+#statusPenerima {
+    display: inline-block;
+    min-width: 130px;
+    font-weight: bold;
+    color: #475569;
+}
+
+/* ===== FINAL POLISH PORTAL ===== */
+
+/* Tajuk setiap bahagian */
+body > h2 {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Card borang */
+.bahagianBorang {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bahagianBorang:hover {
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09);
+}
+
+/* Dropdown lebih kemas */
+select {
+    cursor: pointer;
+}
+
+/* Ruang textarea */
+textarea {
+    min-height: 70px;
+    line-height: 1.5;
+}
+
+/* Color picker */
+input[type="color"] {
+    width: 70px;
+    height: 45px;
+    padding: 4px;
+    margin-top: 8px;
+    background: white;
+    border: 1px solid #dbe2ea;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Navigasi penerima */
+#navigasiPenerima {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Preview sijil */
+#sijilPreview {
+    transition: box-shadow 0.25s ease;
+}
+
+/* Kawasan butang bawah */
+#butangTindakan {
+    max-width: 1000px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+/* Butang cetak */
+#btnCetak,
+#btnPDF {
+    min-width: 190px;
+}
+
+/* Disabled navigation */
+#btnSebelumnya:disabled,
+#btnSeterusnya:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Footer kecil portal */
+body::after {
+    content: "Portal e-Sijil • Sistem Penjanaan Sijil Digital";
+    display: block;
+    max-width: 900px;
+    margin: 45px auto 10px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+    @media (max-width: 700px) {
+        body {
+            padding: 20px;
+        }
+
+        #sijilPreview {
+            padding: 20px;
+        }
+
+        #previewJenis {
+            font-size: 27px;
+        }
+
+        #previewNama {
+            font-size: 22px;
+        }
+.bahagianBorang {
+    padding: 20px;
+}
+
+#navigasiPenerima {
+    flex-wrap: wrap;
+}
+
+#butangTindakan {
+    padding: 18px;
+}
+
+#btnCetak,
+#btnPDF {
+    width: 100%;
+    margin: 5px 0;
+}
+
+    }
+
+@page {
+    size: A4 landscape;
+    margin: 0;
+}
+
+@media print {
+
+.design-klasik::before {
+    top: -20px !important;
+    left: -20px !important;
+    right: -20px !important;
+    bottom: -20px !important;
+}
+
+.design-moden::before {
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+}
+
+* {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+body.print-landscape #sijilPreview,
+body.print-landscape #batchSijil > div {
+    width: 295mm !important;
+    height: 208mm !important;
+}
+
+body.print-portrait #sijilPreview,
+body.print-portrait #batchSijil > div {
+    width: 200mm !important;
+    height: 280mm !important;
+}
+
+    html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white;
+    width: 100%;
+    height: auto !important;
+    overflow: hidden !important;
+}
+
+    body > *:not(#sijilPreview):not(#batchSijil) {
+    display: none !important;
+}
+
+    #sijilPreview,
+    #sijilPreview * {
+        visibility: visible;
+    }
+
+#batchSijil,
+#batchSijil * {
+    visibility: visible;
+}
+
+body:not(.cetak-batch) #batchSijil {
+    display: none !important;
+}
+
+    #batchSijil > div {
+    position: relative !important;
+
+    max-width: none !important;
+    aspect-ratio: auto !important;
+
+   margin: 0 !important;
+   padding: 0 !important;
+
+    box-shadow: none !important;
+
+    page-break-after: auto;
+break-after: auto;
+
+	break-inside: avoid !important;
+	page-break-inside: avoid !important;
+	overflow: hidden !important;
+}
+
+#batchSijil > div:last-child {
+    page-break-after: auto;
+    break-after: auto;
+}
+
+body.cetak-batch #sijilPreview {
+    display: none !important;
+}
+
+body.cetak-batch #batchSijil {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+	#sijilPreview {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+
+        max-width: none !important;
+        aspect-ratio: auto !important;
+
+        margin: 0 !important;
+	padding: 0 !important;
+
+        box-shadow: none !important;
+
+        overflow: hidden;
+
+	page-break-inside: avoid !important;
+    }
+
+/* tutup @media print */
+}
+
+.hiasan-sudut {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    pointer-events: none;
+}
+
+.hiasan-sudut::before {
+    content: "❧";
+    position: absolute;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 85px;
+    line-height: 1;
+    color: #b08d57;
+}
+
+.kiri-atas {
+    top: 18px;
+    left: 18px;
+    border-top: 4px solid #b08d57;
+    border-left: 4px solid #b08d57;
+}
+
+.kanan-atas {
+    top: 18px;
+    right: 18px;
+    border-top: 4px solid #b08d57;
+    border-right: 4px solid #b08d57;
+}
+
+.kiri-bawah {
+    bottom: 18px;
+    left: 18px;
+    border-bottom: 4px solid #b08d57;
+    border-left: 4px solid #b08d57;
+}
+
+.kanan-bawah {
+    bottom: 18px;
+    right: 18px;
+    border-bottom: 4px solid #b08d57;
+    border-right: 4px solid #b08d57;
+}
+
+.hiasan-moden {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 18px;
+    background: #2563eb;
+    display: none;
+    pointer-events: none;
+}
+
+.hiasan-moden.atas {
+    top: 0;
+}
+
+.hiasan-moden.bawah {
+    bottom: 0;
+}
+
+.hiasan-minimal {
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    right: 28px;
+    bottom: 28px;
+    border: 1px solid #b5b5b5;
+    display: none;
+    pointer-events: none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+    <h1>Portal e-Sijil</h1>
+    <p>Cipta sijil anda dengan mudah.</p>
+
+    <h2>1. Reka Bentuk & Orientasi</h2>
+
+<div class="bahagianBorang">
+
+    <label>Mod Sijil</label>
+<select id="modSijil">
+    <option value="satu">Satu Penerima</option>
+    <option value="ramai">Ramai Penerima</option>
+</select>
+
+    <br><br>
+
+    <label>Orientasi Halaman A4</label>
+    <select id="orientasi">
+        <option>Landscape</option>
+        <option>Portrait</option>
+    </select>
+
+    <br><br>
+
+    <label>Design Sijil</label>
+<select id="designSijil">
+    <option value="klasikEmas">Klasik Emas</option>
+    <option value="modenBiru">Moden Biru</option>
+    <option value="minimalElegan">Minimal Elegan</option>
+    <option value="teksSahaja">Tanpa Bingkai (Teks Sahaja)</option>
+</select>
+
+<br><br>
+
+<div id="bahagianWarnaPelantikan" style="display: none;">
+    <label>Warna Tema Sijil Pelantikan</label><br>
+    <input type="color" id="warnaPelantikan" value="#1d4ed8">
+</div>
+
+<label>Gaya Bingkai Sijil</label>
+   <select id="gayaBingkai">
+        <option>Klasik</option>
+        <option>Moden</option>
+        <option>Minimal</option>
+    </select>
+
+</div>
+
+    <h2>2. Pilihan Teks & Tipografi</h2>
+
+<div class="bahagianBorang">
+
+    <label>Jenis Sijil</label>
+    <select id="jenisSijil">
+        <option>Sijil Penyertaan</option>
+        <option>Sijil Penghargaan</option>
+        <option>Sijil Pencapaian</option>
+        <option>Sijil Kecemerlangan</option>
+	<option>Sijil Pelantikan</option>
+    </select>
+
+<br><br>
+
+<div id="pilihanBarisPelantikan" style="display:none;">
+    <label>Susunan Tajuk Sijil Pelantikan</label><br><br>
+
+    <label>
+        <input type="radio" name="barisPelantikan" value="sebaris">
+        Sebaris
+    </label>
+
+    &nbsp;&nbsp;
+
+    <label>
+        <input type="radio" name="barisPelantikan" value="duabaris" checked>
+        2 Baris
+    </label>
+
+<br><br>
+
+<label>Saiz Tajuk Sijil Pelantikan</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizTajukPelantikan"
+           min="30"
+           max="70"
+           value="52"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizTajukPelantikan">52 px</span>
+</div>
+
+</div>
+
+<br><br>
+
+    <br><br>
+
+    <label>Pilihan Fon Tajuk Sijil</label>
+    <select id="fontTajuk">
+        <option>Georgia</option>
+        <option>Times New Roman</option>
+        <option>Arial</option>
+        <option>Verdana</option>
+    </select>
+
+    <br><br>
+
+    <label>Pilihan Fon Isi Sijil</label>
+    <select id="fontIsi">
+        <option>Arial</option>
+        <option>Georgia</option>
+        <option>Times New Roman</option>
+        <option>Verdana</option>
+    </select>
+
+    <br><br>
+
+</div>
+
+    <h2>3. Maklumat Sekolah/Kelab & Sijil</h2>
+
+<div class="bahagianBorang">
+
+    <label>Logo Sekolah / Kelab</label><br>
+    <input type="file" id="logoSekolah" accept="image/*">
+
+    <br><br>
+
+<label>Saiz Logo</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizLogo"
+           min="60"
+           max="350"
+           value="120"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizLogo">120 px</span>
+</div>
+
+<br><br>
+
+<label>Logo Watermark</label><br>
+<input type="file" id="logoWatermark" accept="image/*">
+
+<br><br>
+
+    <label>Nama Sekolah / Kelab</label><br>
+    <input type="text" id="namaSekolah"
+           placeholder="Contoh: SMK Seri Maju">
+
+    <br><br>
+
+    <label>Ayat Pengenalan</label><br>
+    <input type="text" id="ayatPengenalan"
+           placeholder="Contoh: Dengan ini diperakui bahawa">
+
+<br><br>
+
+<label>Saiz Ayat Pengenalan</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizAyatPengenalan"
+           min="12"
+           max="40"
+           value="16"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizAyatPengenalan">16 px</span>
+</div>
+
+    <br><br>
+
+   <div id="bahagianPenerima">
+
+    <label id="labelPenerima">Nama Penerima</label><br>
+
+    <textarea id="senaraiPenerima"
+              rows="2"
+              cols="40"
+              placeholder="Contoh: Nur Aisyah"></textarea>
+
+    <p id="panduanPenerima">
+        Masukkan nama seorang penerima.
+    </p>
+
+<br><br>
+
+<label>Saiz Nama Penerima</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizNamaPenerima"
+           min="20"
+           max="60"
+           value="36"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizNamaPenerima">36 px</span>
+</div>
+
+</div>
+
+<div id="bahagianIC" style="display: none;">
+
+    <label>No. Kad Pengenalan</label><br>
+
+    <textarea id="noIC"
+          rows="2"
+          placeholder="Contoh: 010101-01-0101"></textarea>
+
+<p id="panduanIC">
+    Masukkan nombor kad pengenalan penerima.
+</p>
+
+    <br><br>
+
+<label>Saiz No. Kad Pengenalan</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizIC"
+           min="16"
+           max="50"
+           value="32"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizIC">32 px</span>
+</div>
+
+<br><br>
+
+</div>
+
+    <label>Ayat Sebelum Nama Program</label><br>
+    <input type="text" id="ayatProgram"
+           placeholder="Contoh: Telah menyertai">
+
+    <br><br>
+
+<label>Saiz Ayat Sebelum Nama Program</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizAyatProgram"
+           min="12"
+           max="40"
+           value="16"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizAyatProgram">16 px</span>
+</div>
+
+<br><br>
+
+    <label>Nama Program / Pencapaian</label><br>
+    <textarea id="namaProgram"
+          rows="2"
+          placeholder="Contoh: Program Kepimpinan Pelajar 2026"></textarea>
+
+<p id="panduanNamaProgram">
+    Masukkan nama program / pencapaian.
+</p>
+
+    <br><br>
+
+<label>Saiz Nama Program / Pencapaian</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizNamaProgram"
+           min="20"
+           max="60"
+           value="36"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizNamaProgram">36 px</span>
+</div>
+
+<br><br>
+
+<div id="bahagianAyatTambahan">
+
+    <label>Ayat Selepas Nama Program</label><br>
+    <input type="text" id="ayatTambahan"
+           placeholder="Contoh: bagi sesi 2026/2027">
+
+    <br><br>
+
+<label>Saiz Ayat Selepas Nama Program</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizAyatTambahan"
+           min="12"
+           max="40"
+           value="24"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizAyatTambahan">24 px</span>
+</div>
+
+<br><br>
+
+
+</div>
+
+    <label>Tarikh</label><br>
+    <input type="date" id="tarikh">
+
+    <br><br>
+
+    <label>Tempat</label><br>
+    <input type="text" id="tempat"
+           placeholder="Contoh: Dewan Seri Gemilang">
+
+    <br><br>
+
+    <label>Penganjur</label><br>
+    <input type="text" id="penganjur"
+           placeholder="Contoh: Kelab Kepimpinan Pelajar">
+
+    <br><br>
+
+</div>
+
+    <h2>4. Pengesahan & Tandatangan</h2>
+
+<div class="bahagianBorang">
+
+    <label>Nama Penandatangan</label><br>
+    <input type="text" id="namaPenandatangan"
+           placeholder="Contoh: Ahmad bin Ali">
+
+    <br><br>
+
+    <label>Jawatan Penandatangan</label><br>
+
+<textarea id="jawatanPenandatangan"
+          rows="2"
+          placeholder="Contoh:
+Pengetua
+SMK Seri Maju"></textarea>
+
+<br><br>
+
+<label>Saiz Jawatan Penandatangan</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizJawatan"
+           min="12"
+           max="40"
+           value="16"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizJawatan">16 px</span>
+</div>
+
+    <br><br>
+
+    <label>Imej Tandatangan Digital</label><br>
+    <input type="file" id="tandatangan" accept="image/*">
+
+    <br><br>
+
+<label>Saiz Tandatangan</label><br><br>
+
+<div style="display:flex; align-items:center; gap:12px; max-width:450px;">
+    <span>Kecil</span>
+
+    <input type="range"
+           id="saizTandatangan"
+           min="50"
+           max="250"
+           value="120"
+           style="flex:1;">
+
+    <span>Besar</span>
+
+    <span id="nilaiSaizTandatangan">120 px</span>
+</div>
+
+<br><br>
+
+</div>
+
+    <h2>5. Pratonton Sijil A4</h2>
+<div id="navigasiPenerima" style="text-align: center; margin: 20px 0;">
+
+    <button type="button" id="btnSebelumnya">
+        ← Sebelumnya
+    </button>
+
+    <span id="statusPenerima">
+        Penerima 1 / 1
+    </span>
+
+    <button type="button" id="btnSeterusnya">
+        Seterusnya →
+    </button>
+
+</div>
+
+    <div id="sijilPreview">
+
+<div class="hiasan-sudut kiri-atas"></div>
+<div class="hiasan-sudut kanan-atas"></div>
+<div class="hiasan-sudut kiri-bawah"></div>
+<div class="hiasan-sudut kanan-bawah"></div>
+
+<div class="hiasan-moden atas"></div>
+<div class="hiasan-moden bawah"></div>
+
+<div class="hiasan-minimal"></div>
+
+        <div id="previewLogo"></div>
+
+        <h3 id="previewSekolah">NAMA SEKOLAH / KELAB</h3>
+
+        <h1 id="previewJenis">SIJIL PENYERTAAN</h1>
+
+        <p id="previewPengenalan">
+            Dengan ini diperakui bahawa
+        </p>
+
+        <h2 id="previewNama">
+            NAMA PENERIMA
+        </h2>
+
+<p id="previewIC" style="display: none;">
+    -
+</p>
+
+        <p id="previewAyatProgram">
+            Telah menyertai
+        </p>
+
+        <h2 id="previewProgram">
+            NAMA PROGRAM / PENCAPAIAN
+        </h2>
+
+<p id="previewAyatTambahan"></p>
+
+        <p id="previewMaklumat">
+            Tarikh | Tempat
+        </p>
+
+        <p id="previewPenganjur">
+            Anjuran: NAMA PENGANJUR
+        </p>
+
+        <br><br>
+
+       <div id="bahagianTandatangan">
+
+    <div id="previewTandatangan"></div>
+
+    <div id="garisanTandatangan"></div>
+
+    <p id="previewPenandatangan">
+        NAMA PENANDATANGAN
+    </p>
+
+    <p id="previewJawatan">
+        JAWATAN
+    </p>
+
+</div>
+
+</div>
+
+
+<div id="batchSijil"></div>
+
+<br><br>
+
+<div id="butangTindakan">
+
+    <button type="button" id="btnCetak">
+        Cetak Sijil
+    </button>
+
+    <button type="button" id="btnPDF">
+        Simpan sebagai PDF
+    </button>
+
+</div>
+
+    <br><br>
+
+<script>
+    // Ambil elemen borang
+const orientasi = document.getElementById("orientasi");
+const gayaBingkai = document.getElementById("gayaBingkai");
+const designSijil = document.getElementById("designSijil");
+const modSijil = document.getElementById("modSijil");
+
+    const jenisSijil = document.getElementById("jenisSijil");
+
+const pilihanBarisPelantikan =
+    document.getElementById("pilihanBarisPelantikan");
+
+const saizTajukPelantikan =
+    document.getElementById("saizTajukPelantikan");
+
+const nilaiSaizTajukPelantikan =
+    document.getElementById("nilaiSaizTajukPelantikan");
+
+const warnaPelantikan = document.getElementById("warnaPelantikan");
+const bahagianWarnaPelantikan =
+    document.getElementById("bahagianWarnaPelantikan");
+
+    const fontTajuk = document.getElementById("fontTajuk");
+    const fontIsi = document.getElementById("fontIsi");
+
+    const namaSekolah = document.getElementById("namaSekolah");
+    const ayatPengenalan = document.getElementById("ayatPengenalan");
+
+const saizAyatPengenalan =
+    document.getElementById("saizAyatPengenalan");
+
+const nilaiSaizAyatPengenalan =
+    document.getElementById("nilaiSaizAyatPengenalan");
+
+    const senaraiPenerima = document.getElementById("senaraiPenerima");
+
+const saizNamaPenerima =
+    document.getElementById("saizNamaPenerima");
+
+const nilaiSaizNamaPenerima =
+    document.getElementById("nilaiSaizNamaPenerima");
+
+const saizIC =
+    document.getElementById("saizIC");
+
+const nilaiSaizIC =
+    document.getElementById("nilaiSaizIC");
+
+const noIC = document.getElementById("noIC");
+const bahagianIC = document.getElementById("bahagianIC");
+
+    const ayatProgram = document.getElementById("ayatProgram");
+
+const saizAyatProgram =
+    document.getElementById("saizAyatProgram");
+
+const nilaiSaizAyatProgram =
+    document.getElementById("nilaiSaizAyatProgram");
+
+    const namaProgram = document.getElementById("namaProgram");
+
+const panduanNamaProgram =
+    document.getElementById("panduanNamaProgram");
+
+const saizNamaProgram =
+    document.getElementById("saizNamaProgram");
+
+const nilaiSaizNamaProgram =
+    document.getElementById("nilaiSaizNamaProgram");
+
+const ayatTambahan = document.getElementById("ayatTambahan");
+
+const saizAyatTambahan =
+    document.getElementById("saizAyatTambahan");
+
+const nilaiSaizAyatTambahan =
+    document.getElementById("nilaiSaizAyatTambahan");
+
+    const tarikh = document.getElementById("tarikh");
+    const tempat = document.getElementById("tempat");
+    const penganjur = document.getElementById("penganjur");
+
+    const namaPenandatangan = document.getElementById("namaPenandatangan");
+    const jawatanPenandatangan = document.getElementById("jawatanPenandatangan");
+
+const saizJawatan =
+    document.getElementById("saizJawatan");
+
+const nilaiSaizJawatan =
+    document.getElementById("nilaiSaizJawatan");
+
+const saizTandatangan =
+    document.getElementById("saizTandatangan");
+
+const nilaiSaizTandatangan =
+    document.getElementById("nilaiSaizTandatangan");
+
+    // Fungsi kemas kini pratonton
+function updatePreview() {
+
+// Paparkan pilihan susunan tajuk untuk Sijil Penghargaan sahaja
+// Paparkan pilihan susunan tajuk untuk Sijil Pelantikan sahaja
+if (jenisSijil.value === "Sijil Pelantikan") {
+    pilihanBarisPelantikan.style.display = "block";
+} else {
+    pilihanBarisPelantikan.style.display = "none";
+}
+
+    // Orientasi sijil
+    const sijil = document.getElementById("sijilPreview");
+
+// Paparan khas untuk Sijil Pelantikan
+
+if (jenisSijil.value === "Sijil Pelantikan") {
+    bahagianIC.style.display = "block";
+
+bahagianWarnaPelantikan.style.display = "block";
+
+    document.getElementById("previewSekolah").style.display = "none";
+    document.getElementById("previewMaklumat").style.display = "none";
+    document.getElementById("previewPenganjur").style.display = "none";
+
+    document.getElementById("previewIC").style.display = "block";
+    document.getElementById("previewIC").textContent =
+    noIC.value || "-";
+
+document.getElementById("previewJenis").style.fontSize =
+    saizTajukPelantikan.value + "px";
+
+document.getElementById("previewIC").style.fontSize =
+    saizIC.value + "px";
+
+document.getElementById("previewIC").style.fontFamily = fontTajuk.value;
+
+} else {
+    bahagianIC.style.display = "none";
+
+bahagianWarnaPelantikan.style.display = "none";
+
+    document.getElementById("previewSekolah").style.display = "block";
+    document.getElementById("previewMaklumat").style.display = "block";
+    document.getElementById("previewPenganjur").style.display = "block";
+
+    document.getElementById("previewIC").style.display = "none";
+document.getElementById("previewJenis").style.fontSize = "42px";
+document.getElementById("previewIC").style.fontSize = "";
+document.getElementById("previewIC").style.fontFamily = "";
+}
+
+document.body.classList.remove("print-landscape", "print-portrait");
+
+if (orientasi.value === "Portrait") {
+    document.body.classList.add("print-portrait");
+} else {
+    document.body.classList.add("print-landscape");
+}
+
+if (orientasi.value === "Portrait") {
+    sijil.style.maxWidth = "700px";
+    sijil.style.aspectRatio = "210 / 297";
+
+    sijil.style.justifyContent = "flex-start";
+sijil.style.paddingTop = "20px";
+
+} else {
+    sijil.style.maxWidth = "1000px";
+    sijil.style.aspectRatio = "297 / 210";
+
+    sijil.style.justifyContent = "center";
+    sijil.style.paddingTop = "50px";
+}
+
+    // Gaya bingkai
+    if (gayaBingkai.value === "Klasik") {
+        sijil.style.border = "12px double #333";
+        sijil.style.borderRadius = "0";
+    }
+
+    if (gayaBingkai.value === "Moden") {
+        sijil.style.border = "8px solid #333";
+        sijil.style.borderRadius = "20px";
+    }
+
+    if (gayaBingkai.value === "Minimal") {
+        sijil.style.border = "2px solid #999";
+        sijil.style.borderRadius = "0";
+    }
+
+// Design Sijil
+sijil.classList.remove("design-klasik", "design-moden");
+
+if (designSijil.value === "klasikEmas") {
+
+sijil.classList.add("design-klasik");
+
+document.querySelectorAll(".hiasan-sudut").forEach(function(hiasan) {
+    hiasan.style.display = "none";
+});
+
+document.querySelectorAll(".hiasan-moden").forEach(function(hiasan) {
+    hiasan.style.display = "none";
+});
+
+document.querySelectorAll(".hiasan-minimal").forEach(function(hiasan) {
+    hiasan.style.display = "none";
+});
+
+sijil.style.border = "none";
+sijil.style.borderRadius = "0";
+
+    sijil.style.background = "#fffdf7";
+    sijil.style.color = "#2b2118";
+    sijil.style.borderColor = "#b08d57";
+
+    document.getElementById("previewJenis").style.color = "#9a762f";
+    document.getElementById("previewNama").style.color = "#2b2118";
+    document.getElementById("previewProgram").style.color = "#9a762f";
+}
+
+else if (designSijil.value === "modenBiru") {
+sijil.classList.add("design-moden");
+
+document.querySelectorAll(".hiasan-sudut").forEach(function(hiasan) {
+    hiasan.style.display = "none";
+});
+
+document.querySelectorAll(".hiasan-moden").forEach(function(hiasan) {
+    hiasan.style.display = "none";
+});
+
+document.querySelectorAll(".hiasan-minimal").forEach(function(hiasan) {
+    hiasan.style.display = "none";
+});
+
+sijil.style.border = "none";
+sijil.style.borderRadius = "20px";
+
+    sijil.style.background = "#f7fbff";
+    sijil.style.color = "#1f2937";
+    sijil.style.borderColor = "#2563eb";
+
+    document.getElementById("previewJenis").style.color = "#1d4ed8";
+    document.getElementById("previewNama").style.color = "#1f2937";
+    document.getElementById("previewProgram").style.color = "#2563eb";
+}
+
+if (designSijil.value === "minimalElegan") {
+
+document.querySelectorAll(".hiasan-sudut").forEach(function(hiasan) {
+    hiasan.style.display = "none";
+});
+
+document.querySelectorAll(".hiasan-moden").forEach(function(hiasan) {
+    hiasan.style.display = "none";
+});
+
+document.querySelectorAll(".hiasan-minimal").forEach(function(hiasan) {
+    hiasan.style.display = "block";
+});
+
+sijil.style.border = "2px solid #777777";
+sijil.style.borderRadius = "0";
+
+    sijil.style.background = "#ffffff";
+    sijil.style.color = "#333333";
+    sijil.style.borderColor = "#777777";
+
+    document.getElementById("previewJenis").style.color = "#333333";
+    document.getElementById("previewNama").style.color = "#111111";
+    document.getElementById("previewProgram").style.color = "#555555";
+}
+
+if (designSijil.value === "teksSahaja") {
+
+    document.querySelectorAll(".hiasan-sudut").forEach(function(hiasan) {
+        hiasan.style.display = "none";
+    });
+
+    document.querySelectorAll(".hiasan-moden").forEach(function(hiasan) {
+        hiasan.style.display = "none";
+    });
+
+    document.querySelectorAll(".hiasan-minimal").forEach(function(hiasan) {
+        hiasan.style.display = "none";
+    });
+
+    sijil.style.border = "none";
+    sijil.style.borderRadius = "0";
+    sijil.style.background = "#ffffff";
+    sijil.style.color = "#222222";
+
+    document.getElementById("previewJenis").style.color = "#222222";
+    document.getElementById("previewNama").style.color = "#222222";
+    document.getElementById("previewProgram").style.color = "#222222";
+}
+
+if (jenisSijil.value === "Sijil Pelantikan") {
+    document.getElementById("previewJenis").style.color = warnaPelantikan.value;
+    document.getElementById("previewProgram").style.color = warnaPelantikan.value;
+
+    document.getElementById("previewNama").style.color = "#000000";
+    document.getElementById("previewIC").style.color = "#000000";
+}
+
+   if (jenisSijil.value === "Sijil Pelantikan") {
+
+    const pilihanBaris =
+        document.querySelector('input[name="barisPelantikan"]:checked');
+
+    if (pilihanBaris && pilihanBaris.value === "sebaris") {
+        document.getElementById("previewJenis").textContent =
+            "SIJIL PELANTIKAN";
+    } else {
+        document.getElementById("previewJenis").innerHTML =
+            "SIJIL<br>PELANTIKAN";
+    }
+
+} else {
+
+    document.getElementById("previewJenis").textContent =
+        jenisSijil.value.toUpperCase();
+
+}
+    document.getElementById("previewSekolah").textContent =
+        namaSekolah.value || "NAMA SEKOLAH / KELAB";
+
+    document.getElementById("previewPengenalan").textContent =
+        ayatPengenalan.value || "Dengan ini diperakui bahawa";
+
+document.getElementById("previewPengenalan").style.fontSize =
+    saizAyatPengenalan.value + "px";
+
+    const penerima = senaraiPenerima.value
+        .split("\n")
+        .filter(nama => nama.trim() !== "");
+
+    document.getElementById("previewNama").textContent =
+        penerima[0] || "NAMA PENERIMA";
+
+document.getElementById("previewNama").style.fontSize =
+    saizNamaPenerima.value + "px";
+
+    document.getElementById("previewAyatProgram").textContent =
+        ayatProgram.value || "Telah menyertai";
+
+document.getElementById("previewAyatProgram").style.fontSize =
+    saizAyatProgram.value + "px";
+
+    document.getElementById("previewProgram").textContent =
+        namaProgram.value || "NAMA PROGRAM / PENCAPAIAN";
+
+document.getElementById("previewProgram").style.fontSize =
+    saizNamaProgram.value + "px";
+
+document.getElementById("previewAyatTambahan").textContent =
+    ayatTambahan.value || "";
+
+document.getElementById("previewAyatTambahan").style.fontSize =
+    saizAyatTambahan.value + "px";
+
+    let maklumat = [];
+
+    if (tarikh.value) {
+        const tarikhFormat = new Date(
+            tarikh.value + "T00:00:00"
+        ).toLocaleDateString("ms-MY", {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+
+        maklumat.push(tarikhFormat);
+    }
+
+    if (tempat.value) {
+        maklumat.push(tempat.value);
+    }
+
+    document.getElementById("previewMaklumat").textContent =
+        maklumat.length
+            ? maklumat.join(" | ")
+            : "Tarikh | Tempat";
+
+    document.getElementById("previewPenganjur").textContent =
+        penganjur.value
+            ? "Anjuran: " + penganjur.value
+            : "Anjuran: NAMA PENGANJUR";
+
+    document.getElementById("previewPenandatangan").textContent =
+        namaPenandatangan.value || "NAMA PENANDATANGAN";
+
+    document.getElementById("previewJawatan").textContent =
+        jawatanPenandatangan.value || "JAWATAN";
+
+document.getElementById("previewJawatan").style.fontSize =
+    saizJawatan.value + "px";
+
+    // Fon
+    sijil.style.fontFamily = fontIsi.value;
+
+    document.getElementById("previewJenis").style.fontFamily =
+        fontTajuk.value;
+
+    document.getElementById("previewNama").style.fontFamily =
+        fontTajuk.value;
+}
+
+// Tukar ruangan penerima mengikut Mod Sijil
+function updateModSijil() {
+
+    const labelPenerima = document.getElementById("labelPenerima");
+    const panduanPenerima = document.getElementById("panduanPenerima");
+
+const labelIC = document.querySelector("#bahagianIC label");
+const panduanIC = document.getElementById("panduanIC");
+
+    if (modSijil.value === "satu") {
+
+        labelPenerima.textContent = "Nama Penerima";
+
+        senaraiPenerima.rows = 2;
+
+        senaraiPenerima.placeholder =
+            "Contoh: Nur Aisyah";
+
+        panduanPenerima.textContent =
+            "Masukkan nama seorang penerima.";
+
+labelIC.textContent = "No. Kad Pengenalan";
+noIC.rows = 2;
+noIC.placeholder = "Contoh: 010101-01-0101";
+panduanIC.textContent = "Masukkan nombor kad pengenalan penerima.";
+
+namaProgram.rows = 2;
+namaProgram.placeholder =
+    "Contoh: Program Kepimpinan Pelajar 2026";
+
+panduanNamaProgram.textContent =
+    "Masukkan nama program / pencapaian.";
+
+    } else {
+
+        labelPenerima.textContent = "Senarai Penerima";
+
+        senaraiPenerima.rows = 7;
+
+        senaraiPenerima.placeholder =
+            "Masukkan satu nama bagi setiap baris";
+
+        panduanPenerima.textContent =
+            "Masukkan satu nama bagi setiap baris. Setiap nama akan menghasilkan satu sijil.";
+
+labelIC.textContent = "Senarai No. Kad Pengenalan";
+noIC.rows = 7;
+noIC.placeholder =
+    "Masukkan satu nombor kad pengenalan bagi setiap baris";
+
+panduanIC.textContent =
+    "Masukkan satu nombor kad pengenalan bagi setiap baris mengikut susunan nama penerima.";
+
+namaProgram.rows = 7;
+
+namaProgram.placeholder =
+    "Masukkan satu nama program / pencapaian bagi setiap baris";
+
+panduanNamaProgram.textContent =
+    "Masukkan satu nama program / pencapaian bagi setiap baris mengikut susunan nama penerima.";
+
+    }
+}
+
+modSijil.addEventListener("change", updateModSijil);
+
+updateModSijil();
+
+// Navigasi penerima
+let indeksPenerima = 0;
+
+const btnSebelumnya = document.getElementById("btnSebelumnya");
+const btnSeterusnya = document.getElementById("btnSeterusnya");
+const statusPenerima = document.getElementById("statusPenerima");
+
+function dapatkanSenaraiPenerima() {
+    return senaraiPenerima.value
+        .split("\n")
+        .map(nama => nama.trim())
+        .filter(nama => nama !== "");
+}
+
+function dapatkanSenaraiIC() {
+    return noIC.value
+        .split("\n")
+        .map(ic => ic.trim())
+        .filter(ic => ic !== "");
+}
+
+function dapatkanSenaraiProgram() {
+    return namaProgram.value
+        .split("\n")
+        .map(program => program.trim())
+        .filter(program => program !== "");
+}
+
+function paparPenerima() {
+
+    const penerima = dapatkanSenaraiPenerima();
+
+const senaraiIC = dapatkanSenaraiIC();
+
+const senaraiProgram = dapatkanSenaraiProgram();
+
+    if (penerima.length === 0) {
+        document.getElementById("previewNama").textContent =
+            "NAMA PENERIMA";
+
+        statusPenerima.textContent = "Penerima 0 / 0";
+        indeksPenerima = 0;
+        return;
+    }
+
+    if (indeksPenerima >= penerima.length) {
+        indeksPenerima = penerima.length - 1;
+    }
+
+    document.getElementById("previewNama").textContent =
+        penerima[indeksPenerima];
+
+if (jenisSijil.value === "Sijil Pelantikan") {
+    document.getElementById("previewIC").textContent =
+        senaraiIC[indeksPenerima] || "-";
+}
+
+document.getElementById("previewProgram").textContent =
+    senaraiProgram[indeksPenerima] || "NAMA PROGRAM / PENCAPAIAN";
+
+    statusPenerima.textContent =
+        "Penerima " + (indeksPenerima + 1) + " / " + penerima.length;
+}
+
+// Bina sijil batch untuk semua penerima
+function binaBatchSijil() {
+
+    const batchSijil = document.getElementById("batchSijil");
+    const penerima = dapatkanSenaraiPenerima();
+
+const senaraiIC = dapatkanSenaraiIC();
+
+const senaraiProgram = dapatkanSenaraiProgram();
+
+    batchSijil.innerHTML = "";
+
+    penerima.forEach(function (nama, index) {
+
+        const salinanSijil =
+            document.getElementById("sijilPreview").cloneNode(true);
+
+        salinanSijil.removeAttribute("id");
+
+        const namaDalamSijil =
+            salinanSijil.querySelector("#previewNama");
+
+        namaDalamSijil.textContent = nama;
+
+const icDalamSijil =
+    salinanSijil.querySelector("#previewIC");
+
+if (jenisSijil.value === "Sijil Pelantikan") {
+    icDalamSijil.textContent =
+        senaraiIC[index] || "-";
+}
+
+const programDalamSijil =
+    salinanSijil.querySelector("#previewProgram");
+
+programDalamSijil.textContent =
+    senaraiProgram[index] || "NAMA PROGRAM / PENCAPAIAN";
+
+        batchSijil.appendChild(salinanSijil);
+    });
+}
+
+btnSeterusnya.addEventListener("click", function () {
+
+    const penerima = dapatkanSenaraiPenerima();
+
+    if (indeksPenerima < penerima.length - 1) {
+        indeksPenerima++;
+        paparPenerima();
+    }
+});
+
+btnSebelumnya.addEventListener("click", function () {
+
+    if (indeksPenerima > 0) {
+        indeksPenerima--;
+        paparPenerima();
+    }
+});
+
+senaraiPenerima.addEventListener("input", function () {
+    indeksPenerima = 0;
+    paparPenerima();
+});
+
+noIC.addEventListener("input", function () {
+    paparPenerima();
+});
+
+namaProgram.addEventListener("input", function () {
+    paparPenerima();
+});
+
+// Pantau pilihan susunan tajuk Sijil Pelantikan
+document.querySelectorAll('input[name="barisPelantikan"]').forEach(function(pilihan) {
+    pilihan.addEventListener("change", updatePreview);
+});
+
+// Kawalan saiz tajuk Sijil Pelantikan
+saizTajukPelantikan.addEventListener("input", function () {
+
+    nilaiSaizTajukPelantikan.textContent =
+        this.value + " px";
+
+    document.getElementById("previewJenis").style.fontSize =
+        this.value + "px";
+
+});
+
+// Kawalan saiz ayat pengenalan
+saizAyatPengenalan.addEventListener("input", function () {
+
+    nilaiSaizAyatPengenalan.textContent =
+        this.value + " px";
+
+    document.getElementById("previewPengenalan").style.fontSize =
+        this.value + "px";
+
+});
+
+// Kawalan saiz ayat sebelum nama program
+
+
+saizAyatProgram.addEventListener("input", function () {
+
+    nilaiSaizAyatProgram.textContent =
+        this.value + " px";
+
+    document.getElementById("previewAyatProgram").style.fontSize =
+        this.value + "px";
+
+});
+
+// Kawalan saiz nama program / pencapaian
+saizNamaProgram.addEventListener("input", function () {
+
+    nilaiSaizNamaProgram.textContent =
+        this.value + " px";
+
+    document.getElementById("previewProgram").style.fontSize =
+        this.value + "px";
+
+});
+
+// Kawalan saiz ayat selepas nama program
+saizAyatTambahan.addEventListener("input", function () {
+
+    nilaiSaizAyatTambahan.textContent =
+        this.value + " px";
+
+    document.getElementById("previewAyatTambahan").style.fontSize =
+        this.value + "px";
+
+});
+
+// Kawalan saiz nama penerima
+
+// Kawalan saiz No. Kad Pengenalan
+saizIC.addEventListener("input", function () {
+
+    nilaiSaizIC.textContent =
+        this.value + " px";
+
+    document.getElementById("previewIC").style.fontSize =
+        this.value + "px";
+
+});
+
+saizNamaPenerima.addEventListener("input", function () {
+
+    nilaiSaizNamaPenerima.textContent =
+        this.value + " px";
+
+    document.getElementById("previewNama").style.fontSize =
+        this.value + "px";
+
+});
+    
+// Pantau perubahan pengguna
+    [
+    	orientasi,
+    	gayaBingkai,
+	designSijil,
+    	jenisSijil,
+	warnaPelantikan,
+    	fontTajuk,
+        fontIsi,
+        namaSekolah,
+        ayatPengenalan,
+        senaraiPenerima,
+	noIC,
+        ayatProgram,
+        namaProgram,
+	ayatTambahan,
+        tarikh,
+        tempat,
+        penganjur,
+        namaPenandatangan,
+        jawatanPenandatangan
+    ].forEach(elemen => {
+        elemen.addEventListener("input", updatePreview);
+        elemen.addEventListener("change", updatePreview);
+    });
+
+// Kawalan saiz logo
+const saizLogo = document.getElementById("saizLogo");
+const nilaiSaizLogo = document.getElementById("nilaiSaizLogo");
+
+saizLogo.addEventListener("input", function () {
+    const logo = document.querySelector("#previewLogo img");
+
+    nilaiSaizLogo.textContent = this.value + " px";
+
+    if (logo) {
+        logo.style.width = this.value + "px";
+        logo.style.height = "auto";
+    }
+});
+
+    // Upload logo sekolah / kelab
+    const logoSekolah = document.getElementById("logoSekolah");
+
+    logoSekolah.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+    document.getElementById("previewLogo").innerHTML =
+    '<img src="' + e.target.result + '" alt="Logo" style="width:' +
+    saizLogo.value + 'px; height:auto; object-fit:contain;">';
+};
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+
+// Upload logo watermark
+const logoWatermark = document.getElementById("logoWatermark");
+
+logoWatermark.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            document.getElementById("sijilPreview").style.setProperty(
+                "--watermark-logo",
+                'url("' + e.target.result + '")'
+            );
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+    // Upload tandatangan digital
+    const tandatangan = document.getElementById("tandatangan");
+
+    tandatangan.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.getElementById("previewTandatangan").innerHTML =
+                    '<img src="' + e.target.result + '" alt="Tandatangan" style="width:' +
+saizTandatangan.value + 'px; height:auto; object-fit:contain;">';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+// Kawalan saiz tandatangan
+saizTandatangan.addEventListener("input", function () {
+
+    nilaiSaizTandatangan.textContent =
+        this.value + " px";
+
+    const imejTandatangan =
+        document.querySelector("#previewTandatangan img");
+
+    if (imejTandatangan) {
+        imejTandatangan.style.width = this.value + "px";
+        imejTandatangan.style.height = "auto";
+    }
+
+});
+
+// Kawalan saiz jawatan penandatangan
+saizJawatan.addEventListener("input", function () {
+
+    nilaiSaizJawatan.textContent =
+        this.value + " px";
+
+    document.getElementById("previewJawatan").style.fontSize =
+        this.value + "px";
+
+});
+
+// Fungsi Cetak Sijil
+const btnCetak = document.getElementById("btnCetak");
+
+btnCetak.addEventListener("click", function () {
+
+    if (modSijil.value === "ramai") {
+        binaBatchSijil();
+	document.body.classList.add("cetak-batch");
+    }
+
+    window.print();
+});
+
+// Fungsi Simpan sebagai PDF
+const btnPDF = document.getElementById("btnPDF");
+
+btnPDF.addEventListener("click", function () {
+
+    if (modSijil.value === "ramai") {
+        binaBatchSijil();
+	document.body.classList.add("cetak-batch");
+    }
+
+    window.print();
+});
+
+    
+updatePreview();
+
+paparPenerima();
+
+window.addEventListener("afterprint", function () {
+    document.body.classList.remove("cetak-batch");
+
+    const batchSijil = document.getElementById("batchSijil");
+    batchSijil.innerHTML = "";
+});
+
+</script>
+
+</body>
+
+</html>
